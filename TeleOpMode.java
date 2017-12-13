@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="TeleOpMode_MainCar", group="Iterative Opmode")
+@TeleOp(name="TeleOpMode", group="Iterative Opmode")
 
-public class TeleOpMode_MainCar extends OpMode
+public class TeleOpMode extends OpMode
 {
     
     //Main Timer
@@ -29,7 +29,7 @@ public class TeleOpMode_MainCar extends OpMode
     private Servo b_clawServo;
     private Servo arm_servo_1;
     private Servo arm_servo_2;
-
+    private Servo side_servo;
 
     //wheel_servos
     private CRServo right_wheel;
@@ -57,6 +57,7 @@ public class TeleOpMode_MainCar extends OpMode
         b_clawServo = hardwareMap.get(Servo.class,"bclaw");
         arm_servo_1 = hardwareMap.get(Servo.class,"armservo1");
         arm_servo_2 = hardwareMap.get(Servo.class,"armservo2");
+        side_servo = hardwareMap.get(Servo.class,"side");
 
 
         //init CRServos
@@ -100,6 +101,7 @@ public class TeleOpMode_MainCar extends OpMode
         right_wheel.setPower(0);
         left_wheel.setPower(0);
 
+        side_servo.setPosition(1);
         //Print
         telemetry.addData("Status", "init() Done");
         telemetry.update();
@@ -141,10 +143,6 @@ public class TeleOpMode_MainCar extends OpMode
         boolean gamepad1_x = gamepad1.x;
         double f_gamepad2_servo = 1-gamepad2.right_trigger;
         double b_gamepad2_servo = gamepad2.left_trigger;
-        boolean single_chain_ru = gamepad1.dpad_up;
-        boolean single_chain_rd = gamepad1.dpad_down;
-        boolean single_chain_lu = gamepad1.dpad_left;
-        boolean single_chain_ld = gamepad1.dpad_right;
         boolean gamepad1_arm_l = gamepad1.left_bumper;
         boolean gamepad1_arm_r = gamepad1.right_bumper;
         boolean gamepad1_arm_servo1_u = gamepad1.dpad_up;

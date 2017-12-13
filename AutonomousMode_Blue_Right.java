@@ -140,21 +140,34 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
 
         side_servo.setPosition(1);
 
-        //Print
-        telemetry.addData("Status", "init() Done");
-        telemetry.update();
-
         relicTrackables.activate();
-        //Detect Pattern
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-        waitForStart();
+        int block_postion = 2;
+
+        b_clawServo.setPosition(0.3);
+
+        //Detect Pattern
+        while (!opModeIsActive()) {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("VuMark", "%s visible", vuMark);
+            telemetry.update();
+        }
 
         while (opModeIsActive()) {
 
             if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
                 //put it on dashboard
                 telemetry.addData("VuMark", "%s visible", vuMark);
+                if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
+                    block_postion = 1;
+                }
+                else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
+                    block_postion = 2;
+                }
+                else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
+                    block_postion = 3;
+                }
             }
 
             side_servo.setPosition(0.45);
@@ -179,7 +192,7 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
 
             ball(iColor);
 
-            block();
+            block(block_postion);
 
 
             // Show the elapsed game time and wheel power.
@@ -202,10 +215,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         if (color == 1) {
             telemetry.addData("Color is Red",color);
             telemetry.update();
-            rightrear.setTargetPosition(200);
-            leftrear.setTargetPosition(-200);
-            rightfront.setTargetPosition(200);
-            leftfront.setTargetPosition(-200);
+            rightrear.setTargetPosition(-300);
+            leftrear.setTargetPosition(300);
+            rightfront.setTargetPosition(-300);
+            leftfront.setTargetPosition(300);
             sleep(1000);
             rightrear.setTargetPosition(0);
             leftrear.setTargetPosition(0);
@@ -219,10 +232,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         else if (color == -1) {
             telemetry.addData("Color is Blue",color);
             telemetry.update();
-            rightrear.setTargetPosition(-200);
-            leftrear.setTargetPosition(200);
-            rightfront.setTargetPosition(-200);
-            leftfront.setTargetPosition(200);
+            rightrear.setTargetPosition(300);
+            leftrear.setTargetPosition(-300);
+            rightfront.setTargetPosition(300);
+            leftfront.setTargetPosition(-300);
             sleep(1000);
             rightrear.setTargetPosition(0);
             leftrear.setTargetPosition(0);
@@ -240,7 +253,7 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
             leftrear.setTargetPosition(0);
             rightfront.setTargetPosition(0);
             leftfront.setTargetPosition(0);
-            sleep(1000);
+            sleep(2000);
             side_servo.setPosition(1);
             telemetry.addData("BACK",color);
             telemetry.update();
@@ -248,16 +261,66 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
 
     }
 
-    void block() {
-        rightfront.setPower(0.2);
-        rightrear.setPower(0.2);
-        leftfront.setPower(0.2);
-        leftrear.setPower(0.2);
+    void block(int block_postion) {
+        if (block_postion == 1) {
+            rightfront.setPower(0.2);
+            rightrear.setPower(0.2);
+            leftfront.setPower(0.2);
+            leftrear.setPower(0.2);
 
-        rightrear.setTargetPosition(-10000);
-        leftrear.setTargetPosition(-10000);
-        rightfront.setTargetPosition(-10000);
-        leftfront.setTargetPosition(-10000);
+            rightrear.setTargetPosition(-2550);
+            leftrear.setTargetPosition(-2550);
+            rightfront.setTargetPosition(-2550);
+            leftfront.setTargetPosition(-2550);
+
+            sleep(4000);
+        }
+        else if (block_postion == 2) {
+            rightfront.setPower(0.2);
+            rightrear.setPower(0.2);
+            leftfront.setPower(0.2);
+            leftrear.setPower(0.2);
+
+            rightrear.setTargetPosition(-3500);
+            leftrear.setTargetPosition(-3500);
+            rightfront.setTargetPosition(-3500);
+            leftfront.setTargetPosition(-3500);
+
+            sleep(4000);
+        }
+        else if (block_postion == 3) {
+            rightfront.setPower(0.2);
+            rightrear.setPower(0.2);
+            leftfront.setPower(0.2);
+            leftrear.setPower(0.2);
+
+            rightrear.setTargetPosition(-4450);
+            leftrear.setTargetPosition(-4450);
+            rightfront.setTargetPosition(-4450);
+            leftfront.setTargetPosition(-4450);
+
+            sleep(4000);
+        }
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()+1850);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()-1850);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()+1850);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()-1850);
+        sleep(3000);
+
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()-600);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()-600);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()-600);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()-600);
+        sleep(2000);
+
+        leftChain.setPower(0.5);
+        rightChain.setPower(0.5);
+        leftChain.setTargetPosition(1000);
+        rightChain.setTargetPosition(1000);
+        sleep(2000);
+
+        b_clawServo.setPosition(1);
+
     }
 
 
