@@ -93,8 +93,8 @@ public class TeleOpMode extends OpMode
         leftfront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftrear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        f_clawServo.scaleRange(0.4,0.9);
-        b_clawServo.scaleRange(0.4,0.9);
+        f_clawServo.scaleRange(0.4,0.85);
+        b_clawServo.scaleRange(0.1,0.7);
         telemetry.addData("F_claw POS",f_clawServo.getPosition());
         telemetry.addData("B_claw POS",b_clawServo.getPosition());
 
@@ -138,17 +138,18 @@ public class TeleOpMode extends OpMode
         double power_3;
         double power_4;
         //raw stick input (Reverse both Y axis)
-        boolean gamepad2_a = gamepad2.a;
-        boolean gamepad2_b = gamepad2.b;
-        boolean gamepad1_x = gamepad1.x;
-        double f_gamepad2_servo = 1-gamepad2.right_trigger;
-        double b_gamepad2_servo = gamepad2.left_trigger;
+        double gamepad1_x = gamepad1.left_trigger;
         boolean gamepad1_arm_l = gamepad1.left_bumper;
         boolean gamepad1_arm_r = gamepad1.right_bumper;
-        boolean gamepad1_arm_servo1_u = gamepad1.dpad_up;
-        boolean gamepad1_arm_servo1_d = gamepad1.dpad_down;
-        boolean gamepad1_arm_servo2_l = gamepad1.dpad_left;
-        boolean gamepad1_arm_servo2_r = gamepad1.dpad_right;
+
+        boolean gamepad2_a = gamepad2.a;
+        boolean gamepad2_b = gamepad2.b;
+        boolean gamepad2_acc_a = gamepad2.left_bumper;
+        boolean gamepad2_acc_b = gamepad2.right_bumper;
+        double f_gamepad2_servo = 1 - gamepad2.right_trigger;
+        double b_gamepad2_servo = 1 - gamepad2.left_trigger;
+        double gamepad2_arm_servo1 = gamepad2.right_stick_y;
+        double gamepad2_arm_servo2 = gamepad2.left_stick_y;
 
 
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -184,14 +185,28 @@ public class TeleOpMode extends OpMode
         }
         else {
             if (gamepad2_a) {
-                Chain_exp = leftChain_Pos - 200;
+                Chain_exp = leftChain_Pos - 300;
                 leftChain.setTargetPosition(Chain_exp);
                 leftChain.setPower(dChainSpeed);
                 rightChain.setTargetPosition(Chain_exp);
                 rightChain.setPower(dChainSpeed);
             }
             else if (gamepad2_b) {
-                Chain_exp = leftChain_Pos + 200;
+                Chain_exp = leftChain_Pos + 300;
+                leftChain.setTargetPosition(Chain_exp);
+                leftChain.setPower(dChainSpeed);
+                rightChain.setTargetPosition(Chain_exp);
+                rightChain.setPower(dChainSpeed);
+            }
+            else if (gamepad2_acc_a) {
+                Chain_exp = leftChain_Pos - 100;
+                leftChain.setTargetPosition(Chain_exp);
+                leftChain.setPower(dChainSpeed);
+                rightChain.setTargetPosition(Chain_exp);
+                rightChain.setPower(dChainSpeed);
+            }
+            else if (gamepad2_acc_b) {
+                Chain_exp = leftChain_Pos + 100;
                 leftChain.setTargetPosition(Chain_exp);
                 leftChain.setPower(dChainSpeed);
                 rightChain.setTargetPosition(Chain_exp);
@@ -206,7 +221,7 @@ public class TeleOpMode extends OpMode
         }
 
         //CRServos
-        if (gamepad1_x) {
+        if (gamepad1_x > 0) {
             left_wheel.setPower(-1);
             right_wheel.setPower(-1);
         }
@@ -225,8 +240,8 @@ public class TeleOpMode extends OpMode
 
         //Long Arm
         if (gamepad1_arm_l) {
-            arm_1.setPower(0.8);
-            arm_2.setPower(0.8);
+            arm_1.setPower(0.4);
+            arm_2.setPower(0.4);
         }
         else if (gamepad1_arm_r) {
             arm_1.setPower(-0.8);
@@ -237,11 +252,16 @@ public class TeleOpMode extends OpMode
             arm_2.setPower(0);
         }
 
+        arm_servo_1.setPosition(gamepad2_arm_servo1);
+
+        if (gamepad2_arm_servo2 >= 0) {
+            arm_servo_2.setPosition(1 - gamepad2_arm_servo2);
+        }
 
         //put data into dashboard
         telemetry.addData("Config_Main_Timer", "Run Time: " + timer.toString());
-        telemetry.addData("Config_MotorPower","1 (%.2f), 2 (%.2f), 3 (%.2f),4 (%.2f)",
-                v1,v2,v3,v4);
+        telemetry.addData("Motor Encoders","1 (%d), 2 (%d), 3 (%d),4 (%d)",
+                leftfront.getCurrentPosition(),rightfront.getCurrentPosition(),leftrear.getCurrentPosition(),rightrear.getCurrentPosition());
 
     }
 

@@ -7,22 +7,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-@Autonomous(name="AutonomousMode_Blue_Right", group="Linear Opmode")
-public class AutonomousMode_Blue_Right extends LinearOpMode {
+
+@Autonomous(name="AutonomousMode_Red_Left", group="Linear Opmode")
+public class AutonomousMode_Red_Left extends LinearOpMode {
 
     //Main Timer
     private ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
@@ -170,13 +164,13 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
                 //put it on dashboard
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 if (vuMark.equals(RelicRecoveryVuMark.LEFT)) {
-                    block_postion = 1;
+                    block_postion = 3;
                 }
                 else if (vuMark.equals(RelicRecoveryVuMark.CENTER)) {
                     block_postion = 2;
                 }
                 else if (vuMark.equals(RelicRecoveryVuMark.RIGHT)) {
-                    block_postion = 3;
+                    block_postion = 1;
                 }
             }
 
@@ -225,10 +219,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         if (color == 1) {
             telemetry.addData("Color is Red",color);
             telemetry.update();
-            rightrear.setTargetPosition(-300);
-            leftrear.setTargetPosition(300);
-            rightfront.setTargetPosition(-300);
-            leftfront.setTargetPosition(300);
+            rightrear.setTargetPosition(300);
+            leftrear.setTargetPosition(-300);
+            rightfront.setTargetPosition(300);
+            leftfront.setTargetPosition(-300);
             sleep(1000);
             side_servo.setPosition(1);
             rightrear.setTargetPosition(0);
@@ -242,10 +236,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         else if (color == -1) {
             telemetry.addData("Color is Blue",color);
             telemetry.update();
-            rightrear.setTargetPosition(300);
-            leftrear.setTargetPosition(-300);
-            rightfront.setTargetPosition(300);
-            leftfront.setTargetPosition(-300);
+            rightrear.setTargetPosition(-300);
+            leftrear.setTargetPosition(300);
+            rightfront.setTargetPosition(-300);
+            leftfront.setTargetPosition(300);
             sleep(1000);
             side_servo.setPosition(1);
             rightrear.setTargetPosition(0);
@@ -278,10 +272,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         leftfront.setPower(0.2);
         leftrear.setPower(0.2);
 
-        rightrear.setTargetPosition(-2000);
-        leftrear.setTargetPosition(-2000);
-        rightfront.setTargetPosition(-2000);
-        leftfront.setTargetPosition(-2000);
+        rightrear.setTargetPosition(2200);
+        leftrear.setTargetPosition(2200);
+        rightfront.setTargetPosition(2200);
+        leftfront.setTargetPosition(2200);
         sleep(3000);
 
         rightrear.setTargetPosition(rightrear.getCurrentPosition()+1850);
@@ -290,10 +284,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         leftfront.setTargetPosition(leftfront.getCurrentPosition()-1850);
         sleep(3000);
 
-        rightrear.setTargetPosition(rightrear.getCurrentPosition()-750);
-        leftrear.setTargetPosition(leftrear.getCurrentPosition()-750);
-        rightfront.setTargetPosition(rightfront.getCurrentPosition()-750);
-        leftfront.setTargetPosition(leftfront.getCurrentPosition()-750);
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()-800);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()-800);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()-800);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()-800);
         sleep(2000);
 
         boolean flag = false;
@@ -309,10 +303,10 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
             leftfront.setPower(0.1);
             leftrear.setPower(0.1);
 
-            rightrear.setTargetPosition(rightrear.getCurrentPosition()-200);
-            leftrear.setTargetPosition(leftrear.getCurrentPosition()+200);
-            rightfront.setTargetPosition(rightfront.getCurrentPosition()+200);
-            leftfront.setTargetPosition(leftfront.getCurrentPosition()-200);
+            rightrear.setTargetPosition(rightrear.getCurrentPosition()+100);
+            leftrear.setTargetPosition(leftrear.getCurrentPosition()-100);
+            rightfront.setTargetPosition(rightfront.getCurrentPosition()-100);
+            leftfront.setTargetPosition(leftfront.getCurrentPosition()+100);
 
             double US_d = Ultra_Sonic_Back.get();
 
@@ -323,7 +317,6 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
             else if (US_d > 200){
                 flag = false;
             }
-
 
             telemetry.addData("Distance", US_d);
             telemetry.addData("Times",times);
@@ -336,35 +329,33 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
 
         if (block_postion == 1) {
 
-            rightrear.setTargetPosition(rightrear.getCurrentPosition() + 310);
-            leftrear.setTargetPosition(leftrear.getCurrentPosition() - 310);
-            rightfront.setTargetPosition(rightfront.getCurrentPosition() - 310);
-            leftfront.setTargetPosition(leftfront.getCurrentPosition() + 310);
+            rightrear.setTargetPosition(rightrear.getCurrentPosition() + 330);
+            leftrear.setTargetPosition(leftrear.getCurrentPosition() - 330);
+            rightfront.setTargetPosition(rightfront.getCurrentPosition() - 330);
+            leftfront.setTargetPosition(leftfront.getCurrentPosition() + 330);
 
-            sleep(2000);
+            sleep(1000);
         }
         else if (block_postion == 2) {
-            rightrear.setTargetPosition(rightrear.getCurrentPosition() - 550);
-            leftrear.setTargetPosition(leftrear.getCurrentPosition() + 550);
-            rightfront.setTargetPosition(rightfront.getCurrentPosition() + 550);
-            leftfront.setTargetPosition(leftfront.getCurrentPosition() - 550);
-
+            rightrear.setTargetPosition(rightrear.getCurrentPosition() + 1050);
+            leftrear.setTargetPosition(leftrear.getCurrentPosition() - 1050);
+            rightfront.setTargetPosition(rightfront.getCurrentPosition() - 1050);
+            leftfront.setTargetPosition(leftfront.getCurrentPosition() + 1050);
             sleep(2000);
         }
         else {
-            rightrear.setTargetPosition(rightrear.getCurrentPosition() - 1400);
-            leftrear.setTargetPosition(leftrear.getCurrentPosition() + 1400);
-            rightfront.setTargetPosition(rightfront.getCurrentPosition() + 1400);
-            leftfront.setTargetPosition(leftfront.getCurrentPosition() - 1400);
-
+            rightrear.setTargetPosition(rightrear.getCurrentPosition() + 1750);
+            leftrear.setTargetPosition(leftrear.getCurrentPosition() - 1750);
+            rightfront.setTargetPosition(rightfront.getCurrentPosition() - 1750);
+            leftfront.setTargetPosition(leftfront.getCurrentPosition() + 1750);
             sleep(2000);
         }
 
-        rightrear.setTargetPosition(rightrear.getCurrentPosition()-30);
-        leftrear.setTargetPosition(leftrear.getCurrentPosition()-30);
-        rightfront.setTargetPosition(rightfront.getCurrentPosition()-30);
-        leftfront.setTargetPosition(leftfront.getCurrentPosition()-30);
-        sleep(500);
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()-70);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()-70);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()-70);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()-70);
+        sleep(1000);
 
         leftChain.setPower(0.5);
         rightChain.setPower(0.5);
@@ -379,25 +370,23 @@ public class AutonomousMode_Blue_Right extends LinearOpMode {
         b_clawServo.setPosition(0);
         sleep(1000);
 
-        rightrear.setTargetPosition(rightrear.getCurrentPosition()+400);
-        leftrear.setTargetPosition(leftrear.getCurrentPosition()+400);
-        rightfront.setTargetPosition(rightfront.getCurrentPosition()+400);
-        leftfront.setTargetPosition(leftfront.getCurrentPosition()+400);
-        sleep(1500);
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()+200);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()+200);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()+200);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()+200);
+        sleep(1000);
 
-        rightrear.setTargetPosition(rightrear.getCurrentPosition()-500);
-        leftrear.setTargetPosition(leftrear.getCurrentPosition()-500);
-        rightfront.setTargetPosition(rightfront.getCurrentPosition()-500);
-        leftfront.setTargetPosition(leftfront.getCurrentPosition()-500);
-        sleep(1500);
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()-200);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()-200);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()-200);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()-200);
+        sleep(1000);
 
-        rightrear.setTargetPosition(rightrear.getCurrentPosition()+400);
-        leftrear.setTargetPosition(leftrear.getCurrentPosition()+400);
-        rightfront.setTargetPosition(rightfront.getCurrentPosition()+400);
-        leftfront.setTargetPosition(leftfront.getCurrentPosition()+400);
+        rightrear.setTargetPosition(rightrear.getCurrentPosition()+500);
+        leftrear.setTargetPosition(leftrear.getCurrentPosition()+500);
+        rightfront.setTargetPosition(rightfront.getCurrentPosition()+500);
+        leftfront.setTargetPosition(leftfront.getCurrentPosition()+500);
         sleep(1500);
-
-        side_servo.setPosition(1);
 
         leftChain.setPower(0.5);
         rightChain.setPower(0.5);
